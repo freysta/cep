@@ -29,7 +29,6 @@ export default function Cep() {
       const data = await response.json();
 
       if (data.erro) {
-        setError('CEP não encontrado ou inválido.');
       } else {
         setEndereco(data);
       }
@@ -55,9 +54,15 @@ export default function Cep() {
 
       {loading && <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />}
 
+      {error && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
+      )}
+
       {endereco && (
         <View style={styles.resultContainer}>
-          <Text style={styles.resultText}>Logradouro: {endereco.logradouro}</Text>
+          <Text style={styles.resultText}>Rua: {endereco.logradouro}</Text>
           <Text style={styles.resultText}>Bairro: {endereco.bairro}</Text>
           <Text style={styles.resultText}>Cidade: {endereco.localidade}</Text>
           <Text style={styles.resultText}>Estado: {endereco.uf}</Text>
@@ -69,7 +74,9 @@ export default function Cep() {
 }
 
 const styles = StyleSheet.create({
- 
+  container: {
+    padding: 20,
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -91,5 +98,10 @@ const styles = StyleSheet.create({
   resultText: {
     fontSize: 60,
     marginBottom: 8,
+  },
+  errorText: {
+    color: '#d32f2f',
+    fontSize: 16,
+    textAlign: 'center',
   },
 });
